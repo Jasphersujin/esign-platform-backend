@@ -151,19 +151,6 @@ public class UserController {
     /**
      * Login
      */
-//    @PostMapping("/login")
-//    public ResponseEntity<ApiResponse<UserResponseDTO>> login(
-//            @Valid @RequestBody LoginDTO request) {
-//
-//        UserResponseDTO response = userService.login(request);
-//
-//        return ResponseEntity.ok(
-//                ApiResponse.<UserResponseDTO>builder()
-//                        .success(true)
-//                        .message("Login successful.")
-//                        .data(response)
-//                        .build());
-//    }
     
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginResponseDTO>> login(
