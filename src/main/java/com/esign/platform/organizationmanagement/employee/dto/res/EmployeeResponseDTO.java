@@ -1,4 +1,4 @@
-package com.esign.platform.organizationmanagement.employee.dto;
+package com.esign.platform.organizationmanagement.employee.dto.res;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

@@ -3,9 +3,9 @@ package com.esign.platform.organizationmanagement.employee;
 import java.util.List;
 import java.util.UUID;
 
-import com.esign.platform.organizationmanagement.employee.dto.CreateEmployeeRequestDTO;
-import com.esign.platform.organizationmanagement.employee.dto.EmployeeResponseDTO;
-import com.esign.platform.organizationmanagement.employee.dto.UpdateEmployeeRequestDTO;
+import com.esign.platform.organizationmanagement.employee.dto.req.CreateEmployeeRequestDTO;
+import com.esign.platform.organizationmanagement.employee.dto.req.UpdateEmployeeRequestDTO;
+import com.esign.platform.organizationmanagement.employee.dto.res.EmployeeResponseDTO;
 
 public interface EmployeeService {
 

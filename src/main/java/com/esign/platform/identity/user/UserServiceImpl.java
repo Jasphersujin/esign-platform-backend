@@ -11,8 +11,10 @@ import com.esign.platform.accesscontrol.role.Role;
 import com.esign.platform.accesscontrol.role.RoleRepository;
 import com.esign.platform.common.exception.BusinessException;
 import com.esign.platform.common.exception.ResourceNotFoundException;
+import com.esign.platform.identity.auth.config.JwtService;
 import com.esign.platform.identity.user.dto.CreateUserDTO;
 import com.esign.platform.identity.user.dto.LoginDTO;
+import com.esign.platform.identity.user.dto.LoginResponseDTO;
 import com.esign.platform.identity.user.dto.UpdateUserDTO;
 import com.esign.platform.identity.user.dto.UserResponseDTO;
 import com.esign.platform.organizationmanagement.employee.Employee;
@@ -28,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private final EmployeeRepository employeeRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     @Override
     public UserResponseDTO createUser(CreateUserDTO request) {
@@ -220,35 +223,120 @@ public class UserServiceImpl implements UserService {
 
     }
 
+//    @Override
+//    public UserResponseDTO login(LoginDTO request) {
+//
+//        User user = userRepository.findByEmailAndDeletedFalse(request.getEmail())
+//                .orElseThrow(() ->
+//                        new BusinessException("Invalid Email or Password."));
+//
+//        if (user.getAccountLocked()) {
+//            throw new BusinessException("Account is locked.");
+//        }
+//
+//        if (!passwordEncoder.matches(
+//                request.getPassword(),
+//                user.getPasswordHash())) {
+//
+//            user.setFailedLoginAttempts(
+//                    user.getFailedLoginAttempts() + 1);
+//
+//            userRepository.save(user);
+//
+//            throw new BusinessException("Invalid Email or Password.");
+//        }
+//
+//        user.setFailedLoginAttempts(0);
+//        user.setLastLoginAt(LocalDateTime.now());
+//
+//        userRepository.save(user);
+//
+//        return mapToResponse(user);
+//    }
+    
     @Override
-    public UserResponseDTO login(LoginDTO request) {
+    public LoginResponseDTO login(LoginDTO request) {
 
-        User user = userRepository.findByEmailAndDeletedFalse(request.getEmail())
-                .orElseThrow(() ->
-                        new BusinessException("Invalid Email or Password."));
+        /*
+         * 1. Find user
+         */
+        User user =
+                userRepository
+                        .findByEmailAndDeletedFalse(
+                                request.getEmail()
+                        )
+                        .orElseThrow(() ->
+                                new BusinessException(
+                                        "Invalid Email or Password."
+                                )
+                        );
 
-        if (user.getAccountLocked()) {
-            throw new BusinessException("Account is locked.");
+        /*
+         * 2. Check account locked
+         */
+        if (Boolean.TRUE.equals(
+                user.getAccountLocked())) {
+
+            throw new BusinessException(
+                    "Account is locked."
+            );
         }
 
+        /*
+         * 3. Check active
+         */
+        if (!Boolean.TRUE.equals(
+                user.getActive())) {
+
+            throw new BusinessException(
+                    "User account is inactive."
+            );
+        }
+
+        /*
+         * 4. Verify password
+         */
         if (!passwordEncoder.matches(
                 request.getPassword(),
                 user.getPasswordHash())) {
 
             user.setFailedLoginAttempts(
-                    user.getFailedLoginAttempts() + 1);
+                    user.getFailedLoginAttempts() + 1
+            );
 
             userRepository.save(user);
 
-            throw new BusinessException("Invalid Email or Password.");
+            throw new BusinessException(
+                    "Invalid Email or Password."
+            );
         }
 
+        /*
+         * 5. Successful login
+         */
         user.setFailedLoginAttempts(0);
-        user.setLastLoginAt(LocalDateTime.now());
+
+        user.setLastLoginAt(
+                LocalDateTime.now()
+        );
 
         userRepository.save(user);
 
-        return mapToResponse(user);
+        /*
+         * 6. Generate JWT
+         */
+        String accessToken =
+                jwtService.generateToken(user);
+
+        /*
+         * 7. Return JWT + user information
+         */
+        return LoginResponseDTO.builder()
+                .accessToken(accessToken)
+                .tokenType("Bearer")
+                .expiresIn(3600L)
+                .user(mapToResponse(user))
+                .build();
     }
 
     private UserResponseDTO mapToResponse(User user) {
@@ -262,6 +350,7 @@ public class UserServiceImpl implements UserService {
                         + " "
                         + user.getEmployee().getLastName())
                 .roleId(user.getRole().getId())
+                .roleCode(user.getRole().getRoleCode())
                 .roleName(user.getRole().getRoleName())
                 .email(user.getEmail())
                 .emailVerified(user.getEmailVerified())

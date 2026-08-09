@@ -11,6 +11,9 @@ import org.springframework.stereotype.Repository;
 public interface RoleRepository extends JpaRepository<Role, UUID> {
 
     Optional<Role> findByIdAndDeletedFalse(UUID id);
+    
+    Optional<Role> findByRoleCodeAndDeletedFalse(
+            String roleCode);
 
     boolean existsByRoleTypeAndRoleNameIgnoreCase(
             RoleType roleType,
@@ -27,5 +30,9 @@ public interface RoleRepository extends JpaRepository<Role, UUID> {
             RoleType roleType);
 
     List<Role> findByDeletedFalse();
+    
+    Optional<Role> findByRoleTypeAndRoleNameIgnoreCaseAndDeletedFalse(
+            RoleType roleType,
+            String roleName);
 
 }

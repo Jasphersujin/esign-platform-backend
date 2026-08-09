@@ -1,4 +1,4 @@
-package com.esign.platform.organizationmanagement.employee.dto;
+package com.esign.platform.organizationmanagement.employee.dto.req;
 
 import java.util.UUID;
 
@@ -10,11 +10,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UpdateEmployeeRequestDTO {
-
+public class CreateEmployeeRequestDTO {
+	
     private UUID organizationId;
 
     private UUID departmentId;
+
+    @NotBlank(message = "Employee Code is required.")
+    @Size(max = 30)
+    private String employeeCode;
 
     @NotBlank(message = "First Name is required.")
     @Size(max = 100)
@@ -32,7 +36,5 @@ public class UpdateEmployeeRequestDTO {
 
     @Size(max = 100)
     private String designation;
-
-    private Boolean active;
 
 }

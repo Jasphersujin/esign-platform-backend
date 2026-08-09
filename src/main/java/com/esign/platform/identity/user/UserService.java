@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.esign.platform.identity.user.dto.CreateUserDTO;
 import com.esign.platform.identity.user.dto.LoginDTO;
+import com.esign.platform.identity.user.dto.LoginResponseDTO;
 import com.esign.platform.identity.user.dto.UpdateUserDTO;
 import com.esign.platform.identity.user.dto.UserResponseDTO;
 
@@ -48,7 +49,8 @@ public interface UserService {
     /**
      * Login
      */
-    UserResponseDTO login(LoginDTO request);
+//    UserResponseDTO login(LoginDTO request);
+    LoginResponseDTO login(LoginDTO request);
 
     /**
      * Delete User (Soft Delete)

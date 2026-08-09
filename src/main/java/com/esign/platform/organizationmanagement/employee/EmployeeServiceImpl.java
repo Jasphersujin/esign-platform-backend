@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.esign.platform.common.exception.BusinessException;
 import com.esign.platform.common.exception.ResourceNotFoundException;
-import com.esign.platform.organizationmanagement.employee.dto.CreateEmployeeRequestDTO;
-import com.esign.platform.organizationmanagement.employee.dto.EmployeeResponseDTO;
-import com.esign.platform.organizationmanagement.employee.dto.UpdateEmployeeRequestDTO;
+import com.esign.platform.organizationmanagement.employee.dto.req.CreateEmployeeRequestDTO;
+import com.esign.platform.organizationmanagement.employee.dto.req.UpdateEmployeeRequestDTO;
+import com.esign.platform.organizationmanagement.employee.dto.res.EmployeeResponseDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,11 +23,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeResponseDTO createEmployee(CreateEmployeeRequestDTO request) {
 
-        if (employeeRepository.existsByEmployeeCode(request.getEmployeeCode())) {
+        if (employeeRepository.existsByEmployeeCodeAndDeletedFalse(request.getEmployeeCode())) {
             throw new BusinessException("Employee Code already exists.");
         }
 
-        if (employeeRepository.existsByEmail(request.getEmail())) {
+        if (employeeRepository.existsByEmailAndDeletedFalse(request.getEmail())) {
             throw new BusinessException("Email already exists.");
         }
 

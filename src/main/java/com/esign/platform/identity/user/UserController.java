@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import com.esign.platform.common.dto.ApiResponse;
 import com.esign.platform.identity.user.dto.CreateUserDTO;
 import com.esign.platform.identity.user.dto.LoginDTO;
+import com.esign.platform.identity.user.dto.LoginResponseDTO;
 import com.esign.platform.identity.user.dto.UpdateUserDTO;
 import com.esign.platform.identity.user.dto.UserResponseDTO;
 
@@ -150,14 +151,29 @@ public class UserController {
     /**
      * Login
      */
+//    @PostMapping("/login")
+//    public ResponseEntity<ApiResponse<UserResponseDTO>> login(
+//            @Valid @RequestBody LoginDTO request) {
+//
+//        UserResponseDTO response = userService.login(request);
+//
+//        return ResponseEntity.ok(
+//                ApiResponse.<UserResponseDTO>builder()
+//                        .success(true)
+//                        .message("Login successful.")
+//                        .data(response)
+//                        .build());
+//    }
+    
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<UserResponseDTO>> login(
+    public ResponseEntity<ApiResponse<LoginResponseDTO>> login(
             @Valid @RequestBody LoginDTO request) {
 
-        UserResponseDTO response = userService.login(request);
+        LoginResponseDTO response =
+                userService.login(request);
 
         return ResponseEntity.ok(
-                ApiResponse.<UserResponseDTO>builder()
+                ApiResponse.<LoginResponseDTO>builder()
                         .success(true)
                         .message("Login successful.")
                         .data(response)

@@ -9,12 +9,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, UUID> {
 
-    Optional<Employee> findByEmployeeCode(String employeeCode);
+	Optional<Employee> findByEmployeeCodeAndDeletedFalse(
+	        String employeeCode);
 
-    Optional<Employee> findByEmail(String email);
+	Optional<Employee> findByEmailAndDeletedFalse(
+	        String email);
 
-    boolean existsByEmployeeCode(String employeeCode);
+	boolean existsByEmployeeCodeAndDeletedFalse(
+	        String employeeCode);
 
-    boolean existsByEmail(String email);
-
+	boolean existsByEmailAndDeletedFalse(
+	        String email);
 }

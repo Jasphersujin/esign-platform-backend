@@ -9,9 +9,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.esign.platform.common.dto.ApiResponse;
-import com.esign.platform.organizationmanagement.employee.dto.CreateEmployeeRequestDTO;
-import com.esign.platform.organizationmanagement.employee.dto.EmployeeResponseDTO;
-import com.esign.platform.organizationmanagement.employee.dto.UpdateEmployeeRequestDTO;
+import com.esign.platform.organizationmanagement.employee.dto.req.CreateEmployeeRequestDTO;
+import com.esign.platform.organizationmanagement.employee.dto.req.UpdateEmployeeRequestDTO;
+import com.esign.platform.organizationmanagement.employee.dto.res.EmployeeResponseDTO;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

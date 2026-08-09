@@ -21,6 +21,8 @@ public class UserResponseDTO {
     private String employeeName;
 
     private UUID roleId;
+    
+    private String roleCode;
 
     private String roleName;
 
