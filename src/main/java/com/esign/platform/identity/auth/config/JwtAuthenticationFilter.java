@@ -70,10 +70,15 @@ public class JwtAuthenticationFilter
                 /*
                  * Find active user
                  */
-                User user =
-                        userRepository
-                                .findByIdAndDeletedFalse(userId)
-                                .orElse(null);
+//                User user =
+//                        userRepository
+//                                .findByIdAndDeletedFalse(userId)
+//                                .orElse(null);
+            	
+	            	User user =
+	            	        userRepository
+	            	                .findByIdAndDeletedFalseWithRole(userId)
+	            	                .orElse(null);
 
                 if (user != null
                         && Boolean.TRUE.equals(user.getActive())

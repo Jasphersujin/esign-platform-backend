@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -20,6 +22,22 @@ public interface UserRepository extends JpaRepository<User, UUID> {
      */
     Optional<User> findByEmployee_IdAndDeletedFalse(UUID employeeId);
 
+    /**
+     * Find User by Id with Role.
+     *
+     * Used by JWT authentication because the
+     * authentication filter needs roleCode.
+     */
+    @Query("""
+        SELECT u
+        FROM User u
+        JOIN FETCH u.role
+        WHERE u.id = :userId
+        AND u.deleted = false
+    """)
+    Optional<User> findByIdAndDeletedFalseWithRole(
+            @Param("userId") UUID userId
+    );
     /**
      * Find User by Email
      */

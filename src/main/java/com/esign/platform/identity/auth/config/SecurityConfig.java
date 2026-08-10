@@ -35,59 +35,6 @@
 //                        session.sessionCreationPolicy(
 //                                SessionCreationPolicy.STATELESS
 //                        ))
-//
-//                /*
-//                 * Authorization rules
-//                 */
-//                .authorizeHttpRequests(auth -> auth
-//
-//                        /*
-//                         * Login does NOT require JWT.
-//                         */
-//                        .requestMatchers(
-//                                "/api/v1/users/login"
-//                        ).permitAll()
-//
-//                        /*
-//                         * Everything else requires authentication.
-//                         */
-//                        .anyRequest().authenticated()
-//                )
-//
-//                /*
-//                 * Return 401 for unauthenticated requests.
-//                 */
-//                .exceptionHandling(exception ->
-//                        exception.authenticationEntryPoint(
-//                                jwtAuthenticationEntryPoint
-//                        ))
-//
-//                /*
-//                 * Disable Basic Authentication.
-//                 */
-//                .httpBasic(httpBasic ->
-//                        httpBasic.disable())
-//
-//                /*
-//                 * Disable form login.
-//                 */
-//                .formLogin(formLogin ->
-//                        formLogin.disable())
-//
-//                /*
-//                 * JWT filter runs before the normal
-//                 * username/password authentication filter.
-//                 */
-//                .addFilterBefore(
-//                        jwtAuthenticationFilter,
-//                        UsernamePasswordAuthenticationFilter.class
-//                );
-//
-//        return http.build();
-//    }
-//}
-
-
 package com.esign.platform.identity.auth.config;
 
 import java.util.List;
@@ -153,7 +100,7 @@ public class SecurityConfig {
                      * Login does not require JWT
                      */
                     .requestMatchers(
-                            "/api/v1/users/login"
+                            "/api/v1/login"
                     ).permitAll()
 
                     /*
