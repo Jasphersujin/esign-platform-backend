@@ -24,6 +24,8 @@ public class RoleResponseDTO {
 
     private String roleName;
 
+    private String roleCode;
+
     private String description;
 
     private RoleType roleType;
@@ -37,5 +39,4 @@ public class RoleResponseDTO {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
-
 }

@@ -9,12 +9,15 @@ import com.esign.platform.accesscontrol.role.dto.UpdateRoleRequestDTO;
 
 public interface RoleService {
 
-    RoleResponseDTO createRole(CreateRoleRequestDTO request);
+    RoleResponseDTO createRole(
+            CreateRoleRequestDTO request);
 
-    RoleResponseDTO updateRole(UUID roleId,
+    RoleResponseDTO updateRole(
+            UUID roleId,
             UpdateRoleRequestDTO request);
 
-    RoleResponseDTO getRoleById(UUID roleId);
+    RoleResponseDTO getRoleById(
+            UUID roleId);
 
     List<RoleResponseDTO> getAllRoles();
 
@@ -23,6 +26,6 @@ public interface RoleService {
     List<RoleResponseDTO> getRolesByOrganization(
             UUID organizationId);
 
-    void deleteRole(UUID roleId);
-
+    void deleteRole(
+            UUID roleId);
 }

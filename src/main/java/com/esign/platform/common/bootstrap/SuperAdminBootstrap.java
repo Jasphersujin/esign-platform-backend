@@ -84,7 +84,7 @@ public class SuperAdminBootstrap implements CommandLineRunner {
                      * Super Admin is a platform-level role.
                      * It does not belong to any organization.
                      */
-                    role.setOrganizationId(null);
+                    role.setOrganization(null);
 
                     /*
                      * Stable system identifier

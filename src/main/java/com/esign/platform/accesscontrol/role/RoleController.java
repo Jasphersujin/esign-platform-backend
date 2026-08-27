@@ -6,7 +6,14 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.esign.platform.accesscontrol.role.dto.CreateRoleRequestDTO;
 import com.esign.platform.accesscontrol.role.dto.RoleResponseDTO;
@@ -14,6 +21,7 @@ import com.esign.platform.accesscontrol.role.dto.UpdateRoleRequestDTO;
 import com.esign.platform.common.dto.ApiResponse;
 
 import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -24,133 +32,185 @@ public class RoleController {
 
     private final RoleService roleService;
 
-    /**
-     * Create Role
+    /*
+     * ==========================================================
+     * CREATE ROLE
+     * ==========================================================
      */
+
     @PostMapping
-    public ResponseEntity<ApiResponse<RoleResponseDTO>> createRole(
-            @Valid @RequestBody CreateRoleRequestDTO request) {
-
-        RoleResponseDTO response = roleService.createRole(request);
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.<RoleResponseDTO>builder()
-                        .success(true)
-                        .message("Role created successfully.")
-                        .data(response)
-                        .build());
-
-    }
-
-    /**
-     * Update Role
-     */
-    @PutMapping("/{roleId}")
-    public ResponseEntity<ApiResponse<RoleResponseDTO>> updateRole(
-            @PathVariable UUID roleId,
-            @Valid @RequestBody UpdateRoleRequestDTO request) {
+    public ResponseEntity<
+            ApiResponse<RoleResponseDTO>> createRole(
+                    @Valid
+                    @RequestBody
+                    CreateRoleRequestDTO request) {
 
         RoleResponseDTO response =
-                roleService.updateRole(roleId, request);
+                roleService.createRole(request);
 
-        return ResponseEntity.ok(
-                ApiResponse.<RoleResponseDTO>builder()
-                        .success(true)
-                        .message("Role updated successfully.")
-                        .data(response)
-                        .build());
-
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(
+                        ApiResponse
+                                .<RoleResponseDTO>builder()
+                                .success(true)
+                                .message(
+                                        "Role created successfully.")
+                                .data(response)
+                                .build()
+                );
     }
 
-    /**
-     * Get Role By Id
+    /*
+     * ==========================================================
+     * UPDATE ROLE
+     * ==========================================================
      */
+
+    @PutMapping("/{roleId}")
+    public ResponseEntity<
+            ApiResponse<RoleResponseDTO>> updateRole(
+                    @PathVariable UUID roleId,
+                    @Valid
+                    @RequestBody
+                    UpdateRoleRequestDTO request) {
+
+        RoleResponseDTO response =
+                roleService.updateRole(
+                        roleId,
+                        request);
+
+        return ResponseEntity.ok(
+                ApiResponse
+                        .<RoleResponseDTO>builder()
+                        .success(true)
+                        .message(
+                                "Role updated successfully.")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    /*
+     * ==========================================================
+     * GET ROLE BY ID
+     * ==========================================================
+     */
+
     @GetMapping("/{roleId}")
-    public ResponseEntity<ApiResponse<RoleResponseDTO>> getRoleById(
-            @PathVariable UUID roleId) {
+    public ResponseEntity<
+            ApiResponse<RoleResponseDTO>> getRoleById(
+                    @PathVariable UUID roleId) {
 
         RoleResponseDTO response =
                 roleService.getRoleById(roleId);
 
         return ResponseEntity.ok(
-                ApiResponse.<RoleResponseDTO>builder()
+                ApiResponse
+                        .<RoleResponseDTO>builder()
                         .success(true)
-                        .message("Role fetched successfully.")
+                        .message(
+                                "Role fetched successfully.")
                         .data(response)
-                        .build());
-
+                        .build()
+        );
     }
 
-    /**
-     * Get All Roles
+    /*
+     * ==========================================================
+     * GET ALL ROLES
+     * ==========================================================
      */
+
     @GetMapping
-    public ResponseEntity<ApiResponse<List<RoleResponseDTO>>> getAllRoles() {
+    public ResponseEntity<
+            ApiResponse<List<RoleResponseDTO>>> getAllRoles() {
 
         List<RoleResponseDTO> response =
                 roleService.getAllRoles();
 
         return ResponseEntity.ok(
-                ApiResponse.<List<RoleResponseDTO>>builder()
+                ApiResponse
+                        .<List<RoleResponseDTO>>builder()
                         .success(true)
-                        .message("Roles fetched successfully.")
+                        .message(
+                                "Roles fetched successfully.")
                         .data(response)
-                        .build());
-
+                        .build()
+        );
     }
 
-    /**
-     * Get Global Roles
+    /*
+     * ==========================================================
+     * GET GLOBAL ROLES
+     * ==========================================================
      */
+
     @GetMapping("/global")
-    public ResponseEntity<ApiResponse<List<RoleResponseDTO>>> getGlobalRoles() {
+    public ResponseEntity<
+            ApiResponse<List<RoleResponseDTO>>> getGlobalRoles() {
 
         List<RoleResponseDTO> response =
                 roleService.getGlobalRoles();
 
         return ResponseEntity.ok(
-                ApiResponse.<List<RoleResponseDTO>>builder()
+                ApiResponse
+                        .<List<RoleResponseDTO>>builder()
                         .success(true)
-                        .message("Global Roles fetched successfully.")
+                        .message(
+                                "Global Roles fetched successfully.")
                         .data(response)
-                        .build());
-
+                        .build()
+        );
     }
 
-    /**
-     * Get Roles By Organization
+    /*
+     * ==========================================================
+     * GET ROLES BY ORGANIZATION
+     * ==========================================================
      */
+
     @GetMapping("/organization/{organizationId}")
-    public ResponseEntity<ApiResponse<List<RoleResponseDTO>>> getRolesByOrganization(
-            @PathVariable UUID organizationId) {
+    public ResponseEntity<
+            ApiResponse<List<RoleResponseDTO>>>
+            getRolesByOrganization(
+                    @PathVariable UUID organizationId) {
 
         List<RoleResponseDTO> response =
-                roleService.getRolesByOrganization(organizationId);
+                roleService.getRolesByOrganization(
+                        organizationId);
 
         return ResponseEntity.ok(
-                ApiResponse.<List<RoleResponseDTO>>builder()
+                ApiResponse
+                        .<List<RoleResponseDTO>>builder()
                         .success(true)
-                        .message("Organization Roles fetched successfully.")
+                        .message(
+                                "Organization Roles fetched successfully.")
                         .data(response)
-                        .build());
-
+                        .build()
+        );
     }
 
-    /**
-     * Delete Role
+    /*
+     * ==========================================================
+     * DELETE ROLE
+     * ==========================================================
      */
+
     @DeleteMapping("/{roleId}")
-    public ResponseEntity<ApiResponse<Object>> deleteRole(
-            @PathVariable UUID roleId) {
+    public ResponseEntity<
+            ApiResponse<Object>> deleteRole(
+                    @PathVariable UUID roleId) {
 
         roleService.deleteRole(roleId);
 
         return ResponseEntity.ok(
-                ApiResponse.builder()
+                ApiResponse
+                        .builder()
                         .success(true)
-                        .message("Role deleted successfully.")
-                        .build());
-
+                        .message(
+                                "Role deleted successfully.")
+                        .build()
+        );
     }
-
 }
