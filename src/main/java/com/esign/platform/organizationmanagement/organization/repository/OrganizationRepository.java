@@ -1,5 +1,6 @@
 package com.esign.platform.organizationmanagement.organization.repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,4 +23,9 @@ public interface OrganizationRepository
             String orgName,
             Pageable pageable
     );
+    
+    List<OrganizationEntity> findAllByIdInAndDeletedFalse(
+            List<UUID> ids
+    );
+    
 }

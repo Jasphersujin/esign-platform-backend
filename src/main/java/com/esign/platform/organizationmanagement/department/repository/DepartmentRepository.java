@@ -34,4 +34,8 @@ public interface DepartmentRepository
     List<DepartmentEntity> findByOrganization_IdAndDeletedFalse(
         UUID organizationId
     );
+    
+    List<DepartmentEntity> findAllByIdInAndDeletedFalse(
+            List<UUID> ids
+    );
 }

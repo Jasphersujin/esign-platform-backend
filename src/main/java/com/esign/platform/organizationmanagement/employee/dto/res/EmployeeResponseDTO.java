@@ -13,8 +13,10 @@ public class EmployeeResponseDTO {
     private UUID id;
 
     private UUID organizationId;
+    private String organizationName;
 
     private UUID departmentId;
+    private String departmentName;
 
     private String employeeCode;
 

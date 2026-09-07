@@ -50,8 +50,7 @@ public class SuperAdminBootstrap implements CommandLineRunner {
         /*
          * 2. Create / Get Super Admin Employee
          */
-        Employee superAdminEmployee =
-                createSuperAdminEmployee();
+        Employee superAdminEmployee = createSuperAdminEmployee();
 
         /*
          * 3. Create / Get Super Admin User
