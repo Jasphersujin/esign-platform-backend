@@ -1,5 +1,6 @@
 package com.esign.platform.system.menu.repository;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,5 +23,9 @@ public interface MenuRepository
 
     boolean existsByMenuNameIgnoreCaseAndSidebarIdIsNullAndDeletedFalse(
             String menuName
+    );
+    
+    List<MenuEntity> findAllBySidebarIdAndDeletedFalseOrderByDisplayOrderAsc(
+            UUID sidebarId
     );
 }

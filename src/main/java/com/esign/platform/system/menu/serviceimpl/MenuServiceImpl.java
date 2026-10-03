@@ -382,6 +382,30 @@ public class MenuServiceImpl implements MenuService {
                     );
                 });
     }
+    
+    // =========================================================
+    // GET MENUS BY SIDEBAR ID
+    // =========================================================
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<MenuResponseDTO> getMenusBySidebarId(UUID sidebarId) {
+
+        log.debug(
+                "Fetching menus for sidebar: {}",
+                sidebarId
+        );
+
+        List<MenuEntity> menus =
+                menuRepository
+                        .findAllBySidebarIdAndDeletedFalseOrderByDisplayOrderAsc(
+                                sidebarId
+                        );
+
+        return menus.stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
 
     // =========================================================
     // SIDEBAR VALIDATION

@@ -26,9 +26,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
 import jakarta.validation.Valid;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -143,7 +141,7 @@ public class MenuController {
     // SEARCH
     // =========================================================
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     @Operation(
             summary = "Search menus",
             description = """
@@ -442,6 +440,54 @@ public class MenuController {
                         .message(
                                 "Menu deleted successfully"
                         )
+                        .build();
+
+        return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/sidebar/{sidebarId}")
+    @Operation(
+            summary = "Get menus by sidebar",
+            description = """
+                    Retrieves all active, non-deleted menus
+                    belonging to the specified sidebar.
+                    Results are ordered by display order.
+                    """
+    )
+    @ApiResponses({
+    	@io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "Menus retrieved successfully"
+            ),
+    	@io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "404",
+                    description = "Sidebar not found"
+            ),
+    	@io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid sidebar ID"
+            )
+    })
+    public ResponseEntity<
+            ApiResponse<List<MenuResponseDTO>>
+    > getMenusBySidebar(
+            @PathVariable UUID sidebarId
+    ) {
+
+        log.debug(
+                "REST request to get menus for sidebar: {}",
+                sidebarId
+        );
+
+        List<MenuResponseDTO> data =
+                menuService.getMenusBySidebarId(sidebarId);
+
+        ApiResponse<List<MenuResponseDTO>> response =
+                ApiResponse
+                        .<List<MenuResponseDTO>>builder()
+                        .success(true)
+                        .message("Menus retrieved successfully")
+                        .data(data)
                         .build();
 
         return ResponseEntity.ok(response);

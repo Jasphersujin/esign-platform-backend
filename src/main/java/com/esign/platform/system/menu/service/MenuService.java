@@ -20,6 +20,8 @@ public interface MenuService {
     PageResponse<MenuResponseDTO> searchMenus(
             MenuSearchDTO request
     );
+    
+    List<MenuResponseDTO> getMenusBySidebarId(UUID sidebarId);
 
     MenuResponseDTO updateMenu(
             UUID id,
@@ -31,4 +33,5 @@ public interface MenuService {
     void deactivateMenu(UUID id);
 
     void deleteMenu(UUID id);
+    
 }
